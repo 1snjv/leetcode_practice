@@ -1,0 +1,42 @@
+class Solution {
+public:
+    
+    void dfs(string num, long long  pos, int target , vector<string> &v , int n, long long val, string s, long long prev)
+    {
+        if(pos==n)
+        {
+            if(val == target)
+                v.push_back(s);
+            return ;
+        }
+        long long k;
+        string ss;        
+        for(int i=pos;i<n;i++)
+        {
+            if(num[pos] =='0' && i > pos)  break;
+            ss=num.substr(pos,i-pos+1);
+            k=stol(ss);
+            
+            dfs(num,i+1, target , v, n, val + k , s+'+'+ss, k);
+            dfs(num,i+1, target , v, n, val - k , s+'-'+ss, -k);
+            dfs(num,i+1, target , v, n, val - prev + prev * k, s+'*'+ss, prev * k);//[232]->[2*3+2],[2+3*2]
+        }
+    }
+    vector<string> addOperators(string num, int target) {
+        
+        int n=num.length();
+        vector<string> v;
+        long long  i,j,k;
+        string s;
+        for(i=0;i<n;i++)
+        {
+            s=num.substr(0,i+1);
+            k=stol(s);
+            if(to_string(k).size()!=s.size())
+                continue;
+            
+            dfs(num,i+1,target, v, n, k, s, k);
+        }
+        return v;
+    }
+};
