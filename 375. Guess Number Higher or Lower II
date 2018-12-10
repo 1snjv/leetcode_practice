@@ -1,0 +1,21 @@
+explainationgiven here   ----> https://harunscorner.wordpress.com/2016/09/04/leetcode-guess-number-higher-or-lower-ii-solution/
+
+class Solution {
+public:
+vector<vector<int>> v;
+int dp(int start, int end)
+{
+	if(start>=end)
+	return 0;
+	if(v[start][end]!=INT_MAX)
+	return v[start][end];
+	for(int i=start;i<=end;i++)
+		v[start][end]=min(v[start][end],max(i+dp(start, i-1),i+ dp(i+1, end)));
+	return v[start][end];
+}
+
+    int getMoneyAmount(int n) {
+    v.resize(n+1,vector<int>(n+1, INT_MAX));
+	return dp(1,n);
+    }
+};
