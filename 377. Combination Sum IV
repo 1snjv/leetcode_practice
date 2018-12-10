@@ -1,0 +1,43 @@
+## this is a very bad solution.. but you can get basic logic from here of how it works
+
+
+class Solution {
+public:
+    int combinationSum4(vector<int>& nums, int target) {
+        
+        int n=nums.size();
+        if(n==0)
+            return 0;
+        if(target==0)
+            return 1;
+        sort(nums.begin(),nums.end());
+        vector<vector<int>> v(n+1,vector<int>(target+1,0));
+        for(int i=0;i<=n;i++)
+            v[i][0]=1;
+        
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=1;j<=target;j++)
+            {
+                
+                if(nums[i-1]>j)
+                    v[i][j]=v[i-1][j];
+                else
+                {for(int k=0;k<i;k++)
+                {
+                    
+                    v[i][j]+=v[i][j-nums[k]];
+                }}
+            }
+        }
+        
+        // for(int i=0;i<=n;i++)
+        // {
+        //     for(int j=0;j<=target;j++)
+        //         cout<<v[i][j]<<" ";
+        //     cout<<endl;
+        // }
+        
+        return v[n][target];
+    }
+};
