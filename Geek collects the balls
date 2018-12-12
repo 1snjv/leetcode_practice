@@ -1,0 +1,64 @@
+
+
+#include<bits/stdc++.h>
+#include<algorithm>
+using namespace std;
+
+int max_sum(vector<int> v1, vector<int> v2 )
+{
+    int p1=0;
+    int p2=0;
+    int i=0;
+    int j=0;
+    
+    while(i<v1.size() && j<v2.size())
+    {
+        if(v1[i]<v2[j])
+            p1+=v1[i++];
+        else if(v1[i]>v2[j])    
+            p2+=v2[j++];
+        else
+        {
+            p1+=v1[i];
+            p2+=v2[j];
+            i++;j++;
+            p1=max(p1,p2);
+            p2=max(p1,p2);
+        }
+    }
+    
+    if(v1[i-1]==v2[j-1])
+    {
+        p1=max(p1,p2);
+        p2=max(p1,p2);
+    }   
+    
+    while(i<v1.size())
+        p1+=v1[i++];
+    
+    while(j<v2.size())
+        p2+=v2[j++];
+        
+    return max(p1,p2);    
+    
+}
+
+int main()
+ {
+	int t,n,i,j,m,k;
+	cin>>t;
+	while(t--)
+	{
+	    cin>>n>>m;
+	    vector<int> v1(n), v2(m);
+	    map<int,int> m1,m2;
+	    for(i=0;i<n;i++)
+	        cin>>v1[i];
+	    for(i=0;i<m;i++)
+	        cin>>v2[i];
+	 
+	    cout<<max_sum(v1,v2)<<endl;
+	    
+	}
+	return 0;
+}
