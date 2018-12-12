@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct node
+{
+    int data, weight;
+};
+
+
+list<node> *adj;
+
+
+
+void dfs(int i, int &mn, int &index)
+{
+    index=i;
+    for(auto it=adj[i].begin();it!=adj[i].end();it++)
+    {
+        if(mn>it->weight)
+        {
+            mn=it->weight;
+        }
+        dfs(it->data,mn,index);   
+    }
+    return ;
+}
+
+int main()
+ {
+	int t,n,i,j,k;
+	cin>>t;
+	while(t--)
+	{
+	    cin>>n>>k;
+
+	    vector<int> in(n+1,0);
+        adj=new list<node>[n+1];
+        int a,b,w;
+        node temp;
+        for(i=0;i<k;i++)
+        {
+            cin>>a>>b>>w;
+            temp.data=b;
+            temp.weight=w;
+            adj[a].push_back(temp);
+            in[b]++;
+        }
+        int ct=0;
+        for( i=1;i<=n;i++)
+            if(in[i]==0 && adj[i].size()!=0)
+            ct++;
+        cout<<ct<<"\n";
+            
+        for( i=1;i<=n;i++)
+        {
+            if(in[i]==0 && adj[i].size()!=0)
+            {
+                int mn=INT_MAX;
+                int index;
+                cout<<i<<" ";
+                dfs(i,mn,index);
+                cout<<index<<" "<<mn;
+                cout<<endl;
+            }
+        }
+        
+	}
+	return 0;
+}
