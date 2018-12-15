@@ -1,0 +1,87 @@
+used to check if in a  dictionary words form cycle or not..ending of a word connects to start of another word.
+
+
+
+#include<bits/stdc++.h>
+#include<algorithm>
+using namespace std;
+
+list<int> *adj=NULL, *cop=NULL;
+
+void dfs(int i, vector<bool> & vis, list<int> * a)
+{
+    vis[i]=true;
+    for(auto it=a[i].begin();it!=a[i].end();it++)
+        if(vis[*it]==false)
+            dfs(*it,vis,a);
+}
+
+list<int> * reverse()
+{
+    list<int> *temp=new list<int>[26];
+    for(int i=0;i<26;i++)
+    {
+        for(auto it=adj[i].begin();it!=adj[i].end();it++)
+        {
+            temp[*it].push_back(i);
+            
+        }
+    }
+    return temp;
+}
+
+bool isconnected()
+{
+    vector<bool> vis(26,false);
+    int i,j;
+    for(i=0;i<26;i++)
+        if(adj[i].size()>0)
+            break;
+    
+    dfs(i,vis,adj);
+    
+    for( j=0;j<26;j++)
+        if(adj[j].size()>0 && vis[j]==false)
+            return false;
+    cop=reverse();
+    vis.resize(26,false);
+    dfs(i,vis,cop);
+    
+    for( j=0;j<26;j++)
+    if(adj[j].size()>0 && vis[j]==false)
+        return false;
+    
+    return true;    
+}
+
+bool eulerian(vector<int> in)
+{
+    
+    for(int i=0;i<26;i++)
+    {
+        if(adj[i].size()!=in[i])
+            return false;
+    }
+    return(isconnected());
+}
+int main()
+ {
+	int t,n,i,j,k;
+	cin>>t;
+	while(t--)
+	{
+	    cin>>n;
+	    
+	    string s;
+	    adj=new list<int>[26];
+	    vector<int> in(26,0);
+	    for(i=0;i<n;i++)
+	    {
+	        cin>>s;
+	        adj[s[0]-'a'].push_back(s[s.length()-1]-'a');
+	        in[s[s.length()-1]-'a']++;
+	    }
+	    cout<<eulerian(in)<<endl;
+	}
+	return 0;
+}
