@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+#include<algorithm>
+#define ll long long
+using namespace std;
+int main()
+ {
+	int t,n,i,j,k;
+	cin>>t;
+	while(t--)
+	{
+	    cin>>n;
+	    vector<ll>odd(10,1),even(10,0);
+	    int cur=1;
+	    ll total=0;
+	    if(n==0)
+	    cout<<"0\n";
+	    else if(n==1)
+	    cout<<"10\n";
+	    else
+	    {
+	        for(i=2;i<=n;i++)
+	        {
+	            switch(cur)
+	            {
+	                case 1: even[0]=odd[0]+odd[8];
+	                        even[1]=odd[2]+odd[1]+odd[4];
+	                        even[2]=odd[1]+odd[5]+odd[3]+odd[2];
+	                        even[3]=odd[2]+odd[6]+odd[3];
+	                        even[4]=odd[4]+odd[5]+odd[1]+odd[7];
+	                        even[5]=odd[2]+odd[5]+odd[4]+odd[6]+odd[8];
+	                        even[6]=odd[6]+odd[3]+odd[9]+odd[5];
+	                        even[7]=odd[8]+odd[7]+odd[4];
+                            even[8]=odd[8]+odd[5]+odd[9]+odd[7]+odd[0];
+                            even[9]=odd[9]+odd[8]+odd[6];
+                            break;
+                    case 0:
+                                odd[0] = even[0] + even[8]; 
+                                odd[1] = even[1] + even[2] + even[4]; 
+                                odd[2] = even[2] + even[1] + even[3] + even[5]; 
+                                odd[3] = even[3] + even[2] + even[6]; 
+                                odd[4] = even[4] + even[1] + even[5] +  even[7]; 
+                                odd[5] = even[5] + even[2] + even[4] + even[8] + even[6]; 
+                                odd[6] = even[6] + even[3] + even[5] + even[9]; 
+                                odd[7] = even[7] + even[4] + even[8]; 
+                                odd[8] = even[8] + even[0] + even[5] + even[7] + even[9]; 
+                                odd[9] = even[9] + even[6] + even[8]; 
+                                break;
+	            }
+	            cur=1-cur;
+	        }
+	        if(n &1)
+	        {
+	            for(auto it=odd.begin();it!=odd.end();it++)
+	            total+=*it;
+	        }
+	        else
+	        {
+	             for(auto it=even.begin();it!=even.end();it++)
+	                    total+=*it;
+	        }
+	        cout<<total<<endl;
+	    }
+	}
+	return 0;
+}
