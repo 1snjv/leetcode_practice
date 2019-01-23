@@ -1,0 +1,88 @@
+class Solution {
+public:
+    
+    
+    bool comp(bitset<33> x, bitset<33>y)
+    {
+        for (int i = 32; i >= 0; i--) {
+            if (x[i] ^ y[i]) return y[i];
+        }
+        return false;
+    }
+    
+    struct trie {
+        bool isend=false;
+        trie *ch[2] = {NULL};
+    };
+    trie *root=new trie;
+    
+    
+    
+    void traverse(bitset<33> &b,bitset<33> bt)
+    {
+        int index;
+        trie *temp = root;
+        for(int i=32;i>=0;i--)
+        {
+            if(bt[i]==0)
+                index = 1;
+            else
+                index=0;
+            if(temp->ch[index])
+                {
+                    b[i]=1;
+                    temp=temp->ch[index];
+            }
+            else
+                {
+                    b[i]=0;
+                    temp=temp->ch[!index];
+                }
+        }
+        
+    }
+    
+    void insert(bitset<33> bt)
+    {
+        trie *temp = root;
+        int index;
+        for(int i=32;i>=0;i--)
+        {
+            if(bt[i]==0)
+                index = 0;
+            else
+                index = 1;
+            if(temp->ch[index]==NULL)
+            {
+                temp->ch[index] = new trie;            
+            }
+            temp = temp->ch[index];
+        }
+        temp->isend = true;
+    }
+    
+    int findMaximumXOR(vector<int>& nums) {
+        
+        sort(nums.begin(),nums.end());
+        
+        bitset<33>bt[nums.size()];
+        
+        //long long mx = -11111111111;
+        for(int i=0;i<nums.size();i++)
+        {
+              bt[i]=nums[i];
+              insert(bt[i]);
+        }
+        bitset<33>bb,mx;
+        for(int i=0;i<nums.size();i++)
+        {
+               bb=0;
+            traverse(bb,bt[i]);
+            if(comp(mx,bb))
+                mx = bb;
+        }
+        cout<<mx.to_ulong() <<" ";
+        long long ans =mx.to_ulong();
+        return ans;
+    }
+};
