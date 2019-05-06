@@ -1,0 +1,14 @@
+https://www.geeksforgeeks.org/ways-color-3n-board-using-4-colors/
+
+int Solution::solve(int A) {
+    if(!A)
+        return 0;
+    long long a=24, b=12,temp;
+    for(int i=2;i<=A;i++)
+    {
+        temp = a;
+        a=(11*a+10*b)%1000000007;
+        b=(5 * temp + 7*b)%1000000007;
+    }
+    return (a+b)%1000000007;
+}
